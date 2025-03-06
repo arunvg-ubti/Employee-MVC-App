@@ -1,0 +1,13 @@
+# Building a MVC Web App for Employee Management System using ASP.NET
+- MVC
+- Using Models, Views and Controllers
+- Models include the data models and computations
+- Views include the frontend which the user is able to see and interact with
+- Controllers handle the user interactions
+- ASP.NET usage
+- dotnet new mvc -n project_name is the command to create the MVC Web App
+- .gitignore file added
+- DB connection established and handled
+- An interactive web application created to manage employees successfully
+- dotnet build is used to build the dotnet application
+- dotnet run is used to run or execute the dotnet application
