@@ -1,0 +1,29 @@
+@model EmployeeManagementSystem.Models.Employee
+@{
+    ViewData["Title"] = "Search Employee";
+}
+
+<h2>Search Employee</h2>
+<form asp-action="SearchEmployee">
+    <div class="form-group">
+        <label asp-for="Id">Employee ID</label>
+        <input asp-for="Id" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search Employee</button>
+</form>
+
+@if (Model != null)
+{
+    <div>
+        <h3>Employee Details</h3>
+        <p><strong>ID:</strong> @Model.Id</p>
+        <p><strong>Name:</strong> @Model.Name</p>
+        <p><strong>Position:</strong> @Model.Position</p>
+        <p><strong>Salary:</strong> @Model.Salary</p>
+        <p><strong>Date of Birth:</strong> @Model.DateOfBirth.ToShortDateString()</p>
+        <p><strong>Email:</strong> @Model.Email</p>
+        <p><strong>Phone Number:</strong> @Model.PhoneNumber</p>
+        <p><strong>Department:</strong> @Model.Department</p>
+        <p><strong>Date of Joining:</strong> @Model.DateOfJoining.ToShortDateString()</p>
+    </div>
+}

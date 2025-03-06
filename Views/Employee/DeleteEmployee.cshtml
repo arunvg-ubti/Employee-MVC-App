@@ -1,0 +1,14 @@
+@model EmployeeManagementSystem.Models.Employee
+
+@{
+    ViewData["Title"] = "Delete Employee";
+}
+
+<h2>Delete Employee</h2>
+<form asp-action="DeleteEmployee">
+    <div class="form-group">
+        <label asp-for="Id">Employee ID</label>
+        <input asp-for="Id" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-danger">Delete Employee</button>
+</form>

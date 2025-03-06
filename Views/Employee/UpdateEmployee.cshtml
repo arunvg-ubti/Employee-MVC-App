@@ -1,0 +1,51 @@
+@model EmployeeManagementSystem.Models.Employee
+@{
+    ViewData["Title"] = "Update Employee";
+}
+
+<h2>Update Employee</h2>
+<form asp-action="UpdateEmployee">
+    <div class="form-group">
+        <label asp-for="Id">Employee ID</label>
+        <input asp-for="Id" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Position">Position</label>
+        <select asp-for="Position" class="form-control">
+            <option value="Manager">Manager</option>
+            <option value="Developer">Developer</option>
+            <option value="Sales_Executive">Sales Executive</option>
+            <option value="HR_Specialist">HR Specialist</option>
+            <option value="Marketing_Manager">Marketing Manager</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Salary">Salary</label>
+        <input asp-for="Salary" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="DateOfBirth">Date of Birth</label>
+        <input asp-for="DateOfBirth" type="date" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber">Phone Number</label>
+        <input asp-for="PhoneNumber" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Department">Department</label>
+        <input asp-for="Department" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="DateOfJoining">Date of Joining</label>
+        <input asp-for="DateOfJoining" type="date" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Update Employee</button>
+</form>
