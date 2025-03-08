@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EmployeeManagementSystem.Data;
 
 namespace EmployeeManagementSystem.Models
 {
@@ -19,11 +20,11 @@ namespace EmployeeManagementSystem.Models
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Employee> GetEmployeeAsync(string id)
+        public async Task<Employee> GetEmployeeByIdOrNameAsync(string searchQuery)
         {
-            return await _context.Employees.FirstOrDefaultAsync(e => e.Id == id);
+            return await _context.Employees.FirstOrDefaultAsync(e => e.Id == searchQuery || e.Name.Contains(searchQuery));
         }
-
+ 
         public async Task<IEnumerable<Employee>> GetAllEmployeesAsync()
         {
             return await _context.Employees.ToListAsync();
@@ -37,20 +38,12 @@ namespace EmployeeManagementSystem.Models
 
         public async Task DeleteEmployeeAsync(string id)
         {
-            var employee = await GetEmployeeAsync(id);
+            var employee = await GetEmployeeByIdOrNameAsync(id);
             if (employee != null)
             {
                 _context.Employees.Remove(employee);
                 await _context.SaveChangesAsync();
             }
         }
-    }
-
-    public class EmployeeContext : DbContext
-    {
-        public EmployeeContext(DbContextOptions<EmployeeContext> options) : base(options) { }
-
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<User> Users { get; set; }
     }
 }

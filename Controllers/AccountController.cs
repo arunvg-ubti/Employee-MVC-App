@@ -1,63 +1,82 @@
 using EmployeeManagementSystem.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
-
+using Microsoft.EntityFrameworkCore;
+ 
 namespace EmployeeManagementSystem.Controllers
 {
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
-
+ 
         public AccountController(IUserService userService)
         {
             _userService = userService;
         }
-
+ 
         public IActionResult Register()
         {
-            return PartialView();
+            return View();
         }
-
+ 
         [HttpPost]
         public async Task<IActionResult> Register(User user)
         {
             if (ModelState.IsValid)
             {
-                await _userService.RegisterUserAsync(user);
-                return PartialView("Login");
+                user.IsAdmin = TempData["Role"]?.ToString() == "Admin";
+ 
+                try
+                {
+                    await _userService.RegisterUserAsync(user);
+                    TempData["SuccessMessage"] = "Registration successful! Please log in.";
+                    return RedirectToAction("Login");
+                }
+                catch (DbUpdateException dbEx)
+                {
+                    ModelState.AddModelError("", "Database error: " + dbEx.Message);
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "An error occurred: " + ex.Message);
+                }
             }
-            return PartialView(user);
+ 
+            return View(user);
         }
-
+ 
         public IActionResult Login()
         {
-            return PartialView();
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
+            return View();
         }
-
+ 
         [HttpPost]
         public async Task<IActionResult> Login(string username, string password)
         {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                ModelState.AddModelError("", "Username and Password are required.");
+                return View();
+            }
+ 
             var user = await _userService.LoginUserAsync(username, password);
             if (user != null)
- 
             {
-                if (user.IsAdmin)
-                {
-                    return PartialView("AdminDashboard", "Employee");
-                }
-                else
-                {
-                    return PartialView("UserDashboard", "Employee");
-                }
+                HttpContext.Session.SetString("UserRole", user.IsAdmin ? "Admin" : "User");
+                return RedirectToAction(user.IsAdmin ? "AdminDashboard" : "UserDashboard", "Employee");
             }
+ 
             ModelState.AddModelError("", "Invalid username or password");
-            return PartialView();
+            return View();
         }
-
+ 
         public IActionResult Logout()
         {
-            // Clear the user session or authentication cookie
+            HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
         }
     }
 }
+ 

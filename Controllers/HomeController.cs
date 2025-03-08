@@ -1,31 +1,53 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using MVCApp.Models;
 
-namespace MVCApp.Controllers;
-
-public class HomeController : Controller
+namespace EmployeeManagementSystem.Controllers
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    public class HomeController : Controller
     {
-        _logger = logger;
-    }
+        public IActionResult Index()
+        {
+            return View();
+        }
 
-    public IActionResult Index()
-    {
-        return View();
-    }
+        public IActionResult ChooseRole()
+        {
+            return View();
+        }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+        public IActionResult AdminOptions()
+        {
+            TempData["Role"] = "Admin";
+            return View();
+        }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public IActionResult UserOptions()
+        {
+            TempData["Role"] = "User";
+            return View();
+        }
+
+        public IActionResult AdminRegister()
+        {
+            TempData["Role"] = "Admin";
+            return RedirectToAction("Register", "Account");
+        }
+
+        public IActionResult AdminLogin()
+        {
+            TempData["Role"] = "Admin";
+            return RedirectToAction("Login", "Account");
+        }
+
+        public IActionResult UserRegister()
+        {
+            TempData["Role"] = "User";
+            return RedirectToAction("Register", "Account");
+        }
+
+        public IActionResult UserLogin()
+        {
+            TempData["Role"] = "User";
+            return RedirectToAction("Login", "Account");
+        }
     }
 }

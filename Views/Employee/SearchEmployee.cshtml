@@ -1,17 +1,19 @@
 @model EmployeeManagementSystem.Models.Employee
+ 
 @{
     ViewData["Title"] = "Search Employee";
+    ViewData["ShowDashboardLink"] = true;
 }
-
+ 
 <h2>Search Employee</h2>
-<form asp-action="SearchEmployee">
+<form asp-action="SearchEmployee" method="post">
     <div class="form-group">
-        <label asp-for="Id">Employee ID</label>
-        <input asp-for="Id" class="form-control" />
+        <label>Search by Employee ID or Name</label>
+        <input type="text" name="searchQuery" class="form-control" placeholder="Enter Employee ID or Name" required />
     </div>
-    <button type="submit" class="btn btn-primary">Search Employee</button>
+    <button type="submit" class="btn btn-primary mt-3">Search Employee</button>
 </form>
-
+ 
 @if (Model != null)
 {
     <div>
@@ -27,3 +29,6 @@
         <p><strong>Date of Joining:</strong> @Model.DateOfJoining.ToShortDateString()</p>
     </div>
 }
+ 
+<a href="@Url.Action(User.IsInRole("Admin") ? "AdminDashboard" : "UserDashboard", "Employee")" class="btn btn-secondary mt-3">Return to Dashboard</a>
+ 

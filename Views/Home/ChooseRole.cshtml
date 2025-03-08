@@ -1,0 +1,9 @@
+@{
+    ViewData["Title"] = "Choose Role";
+}
+
+<div class="text-center">
+    <h2>Are you an Admin or a User?</h2>
+    <a href="@Url.Action("AdminOptions", "Home")" class="btn btn-primary">Admin</a>
+    <a href="@Url.Action("UserOptions", "Home")" class="btn btn-secondary">User</a>
+</div>

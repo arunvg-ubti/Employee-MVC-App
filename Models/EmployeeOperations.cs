@@ -26,11 +26,10 @@ namespace EmployeeManagementSystem.Models
             await _employeeService.DeleteEmployeeAsync(id);
         }
 
-        public async Task<Employee> SearchEmployeeAsync(string id)
+        public async Task<Employee> SearchEmployeeByIdOrNameAsync(string searchQuery)
         {
-            return await _employeeService.GetEmployeeAsync(id);
+            return await _employeeService.GetEmployeeByIdOrNameAsync(searchQuery);
         }
-
         public async Task<IEnumerable<Employee>> DisplayAllEmployeesAsync()
         {
             return await _employeeService.GetAllEmployeesAsync();

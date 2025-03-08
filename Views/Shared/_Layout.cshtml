@@ -6,32 +6,43 @@
     <title>@ViewData["Title"] - EmployeeManagementSystem</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        body {
+            background-color: #fffacd; /* Light yellow background */
+        }
+        .navbar {
+            background-color: #fffacd; /* Light yellow navbar */
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="@Url.Action("Index", "Home")">Employee Portal</a>
-                <div class="collapse navbar-collapse">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Index", "Home")">Home</a>
-                        </li>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")">Employee Portal</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    @if (User.Identity.IsAuthenticated)
+                    {
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("Logout", "Account")">Logout</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" id="mainMenuLink">Go to Main Menu</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <main role="main" class="pb-3" id="mainContent">
+ 
+                        @if (ViewData["ShowDashboardLink"] != null && (bool)ViewData["ShowDashboardLink"])
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action(User.IsInRole("Admin") ? "AdminDashboard" : "UserDashboard", "Employee")">Return to Dashboard</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </nav>
+ 
+        <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
+ 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js"></script>

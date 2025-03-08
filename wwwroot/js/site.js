@@ -1,22 +1,4 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-$(document).ready(function() {
-    // Handle form submissions with AJAX
-    $("form").submit(function(event) {
-        event.preventDefault();
-        var form = $(this);
-        $.ajax({
-            type: form.attr("method"),
-            url: form.attr("action"),
-            data: form.serialize(),
-            success: function(response) {
-                $("#mainContent").html(response);
-            }
-        });
-    });
-
+﻿$(document).ready(function() {
     // Handle main menu link click
     $("#mainMenuLink").click(function(event) {
         event.preventDefault();
