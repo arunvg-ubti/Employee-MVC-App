@@ -2,17 +2,25 @@
  
 @{
     ViewData["Title"] = "Delete Employee";
-    ViewData["ShowDashboardLink"] = true;
 }
  
 <h2>Delete Employee</h2>
 <form asp-action="DeleteEmployee" method="post">
     <div class="form-group">
-        <label asp-for="Id">Employee ID</label>
-        <input asp-for="Id" class="form-control" />
+        <label>Enter Employee ID</label>
+        <input type="text" name="id" class="form-control" required />
     </div>
     <button type="submit" class="btn btn-danger">Delete Employee</button>
 </form>
  
-<a href="@Url.Action(User.IsInRole("Admin") ? "AdminDashboard" : "UserDashboard", "Employee")" class="btn btn-secondary mt-3">Return to Dashboard</a>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+ 
+<a href="@Url.Action(Context.Session.GetString("UserRole") == "Admin" ? "AdminDashboard" : "UserDashboard", "Employee")" class="btn btn-secondary mt-3">Return to Dashboard</a>
  

@@ -2,17 +2,66 @@
  
 @{
     ViewData["Title"] = "Update Employee";
-    ViewData["ShowDashboardLink"] = true;
 }
  
 <h2>Update Employee</h2>
+ 
+@if (TempData["UpdateMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["UpdateMessage"]</div>
+}
+ 
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+ 
 <form asp-action="UpdateEmployee" method="post">
     <div class="form-group">
-        <label asp-for="Id">Employee ID</label>
-        <input asp-for="Id" class="form-control" />
+        <label asp-for="Id"></label>
+        <input asp-for="Id" class="form-control" required />
     </div>
+ 
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" required />
+    </div>
+ 
+    <div class="form-group">
+        <label asp-for="Position"></label>
+        <input asp-for="Position" class="form-control" required />
+    </div>
+ 
+    <div class="form-group">
+        <label asp-for="Salary"></label>
+        <input asp-for="Salary" class="form-control" required />
+    </div>
+ 
+    <div class="form-group">
+        <label asp-for="DateOfBirth"></label>
+        <input asp-for="DateOfBirth" class="form-control" type="date" required />
+    </div>
+ 
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" type="email" required />
+    </div>
+ 
+    <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" required />
+    </div>
+ 
+    <div class="form-group">
+        <label asp-for="Department"></label>
+        <input asp-for="Department" class="form-control" required />
+    </div>
+ 
+    <div class="form-group">
+        <label asp-for="DateOfJoining"></label>
+        <input asp-for="DateOfJoining" class="form-control" type="date" required />
+    </div>
+ 
     <button type="submit" class="btn btn-primary">Update Employee</button>
 </form>
- 
-<a href="@Url.Action(User.IsInRole("Admin") ? "AdminDashboard" : "UserDashboard", "Employee")" class="btn btn-secondary mt-3">Return to Dashboard</a>
  

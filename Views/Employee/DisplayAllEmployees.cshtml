@@ -1,38 +1,47 @@
 @model IEnumerable<EmployeeManagementSystem.Models.Employee>
-
+ 
 @{
     ViewData["Title"] = "Display All Employees";
 }
-
+ 
 <h2>All Employees</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Salary</th>
-            <th>Date of Birth</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Department</th>
-            <th>Date of Joining</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var employee in Model)
-        {
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-warning">No employees found.</div>
+}
+else
+{
+    <table class="table">
+        <thead>
             <tr>
-                <td>@employee.Id</td>
-                <td>@employee.Name</td>
-                <td>@employee.Position</td>
-                <td>@employee.Salary</td>
-                <td>@employee.DateOfBirth.ToShortDateString()</td>
-                <td>@employee.Email</td>
-                <td>@employee.PhoneNumber</td>
-                <td>@employee.Department</td>
-                <td>@employee.DateOfJoining.ToShortDateString()</td>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Salary</th>
+                <th>Date of Birth</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Department</th>
+                <th>Date of Joining</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model)
+            {
+                <tr>
+                    <td>@employee.Id</td>
+                    <td>@employee.Name</td>
+                    <td>@employee.Position</td>
+                    <td>@employee.Salary</td>
+                    <td>@employee.DateOfBirth.ToShortDateString()</td>
+                    <td>@employee.Email</td>
+                    <td>@employee.PhoneNumber</td>
+                    <td>@employee.Department</td>
+                    <td>@employee.DateOfJoining.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<a href="@Url.Action(Context.Session.GetString("UserRole") == "Admin" ? "AdminDashboard" : "UserDashboard", "Employee")" class="btn btn-secondary mt-3">Return to Dashboard</a>
+ 

@@ -2,7 +2,6 @@
  
 @{
     ViewData["Title"] = "Search Employee";
-    ViewData["ShowDashboardLink"] = true;
 }
  
 <h2>Search Employee</h2>
@@ -13,6 +12,11 @@
     </div>
     <button type="submit" class="btn btn-primary mt-3">Search Employee</button>
 </form>
+ 
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
  
 @if (Model != null)
 {
@@ -30,5 +34,5 @@
     </div>
 }
  
-<a href="@Url.Action(User.IsInRole("Admin") ? "AdminDashboard" : "UserDashboard", "Employee")" class="btn btn-secondary mt-3">Return to Dashboard</a>
+<a href="@Url.Action(Context.Session.GetString("UserRole") == "Admin" ? "AdminDashboard" : "UserDashboard", "Employee")" class="btn btn-secondary mt-3">Return to Dashboard</a>
  

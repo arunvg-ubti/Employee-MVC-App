@@ -7,12 +7,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <style>
-        body {
-            background-color: #fffacd; /* Light yellow background */
-        }
-        .navbar {
-            background-color: #fffacd; /* Light yellow navbar */
-        }
+        body { background-color: #fffacd; /* Light yellow background */ }
+        .navbar { background-color: #fffacd; /* Light yellow navbar */ }
     </style>
 </head>
 <body>
@@ -29,8 +25,11 @@
  
                         @if (ViewData["ShowDashboardLink"] != null && (bool)ViewData["ShowDashboardLink"])
                         {
+                            var userRole = Context.Session.GetString("UserRole");
                             <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action(User.IsInRole("Admin") ? "AdminDashboard" : "UserDashboard", "Employee")">Return to Dashboard</a>
+                                <a class="nav-link" href="@Url.Action(userRole == "Admin" ? "AdminDashboard" : "UserDashboard", "Employee")">
+                                    Return to Dashboard
+                                </a>
                             </li>
                         }
                     }
@@ -49,3 +48,4 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+ 
