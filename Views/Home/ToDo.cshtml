@@ -1,0 +1,60 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+ 
+@{
+    ViewData["Title"] = "To-Do List";
+}
+
+<h2>To-Do List</h2>
+
+<input type="text" id="taskInput" placeholder="Enter task">
+<button onclick="addTask()">Add Task</button>
+
+<ul id="toDoList"></ul>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function loadTasks() {
+        $.get("/api/todo", function (data) {
+            $("#toDoList").empty();
+            data.forEach(task => {
+                $("#toDoList").append(`<li>${task.task} 
+                <button onclick="deleteTask(${task.id})">Delete</button></li>`);
+            });
+        });
+    }
+
+    function addTask() {
+        var task = $("#taskInput").val();
+        if (!task) {
+            alert("Please enter a task.");
+            return;
+        }
+
+        $.ajax({
+            url: "/api/todo",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ task: task }),
+            success: function () {
+                $("#taskInput").val("");
+                loadTasks();
+            }
+        });
+    }
+
+    function deleteTask(id) {
+        $.ajax({
+            url: `/api/todo/${id}`,
+            type: "DELETE",
+            success: function () {
+                loadTasks();
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        loadTasks();
+    });
+</script>

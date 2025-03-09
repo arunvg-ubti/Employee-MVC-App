@@ -23,11 +23,10 @@ if (string.IsNullOrEmpty(connectionString))
 }
  
 // ✅ Register DbContext with EF Core and SQL Server
-builder.Services.AddDbContext<EmployeeContext>(options =>
-    options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<EmployeeContext>(options => options.UseSqlServer(connectionString));
  
 // ✅ Register services for Dependency Injection (Prevents Service Resolution Errors)
-builder.Services.AddScoped<IUserService, UserService>();   // Registers IUserService with UserService
+builder.Services.AddScoped<IUserService, UserService>(); // Registers IUserService with UserService
 builder.Services.AddScoped<IEmployeeService, EmployeeService>(); // Registers IEmployeeService with EmployeeService
  
 // ✅ If you have repositories, register them too
@@ -38,6 +37,16 @@ builder.Services.AddSession(); // ✅ Enable session support
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddHttpContextAccessor(); // ✅ Ensures controllers can access session data
  
+// ✅ Enable API support
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();  // Enables API documentation
+ 
+// ✅ Enable CORS for AJAX support in To-Do API
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
+ 
 var app = builder.Build();
  
 // ✅ Configure the HTTP request pipeline
@@ -47,13 +56,19 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
  
+// ✅ Enable CORS before routing
+app.UseCors("AllowAll");
+ 
 // ✅ Enable session before routing
 app.UseSession();
  
-//app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
+ 
+// ✅ Map API controllers for To-Do List API
+app.MapControllers(); // Ensures Web API endpoints work
  
 // ✅ Default route configuration
 app.MapControllerRoute(

@@ -32,16 +32,20 @@
                                 </a>
                             </li>
                         }
+ 
+                        <!-- ✅ New To-Do List Link Added -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("ToDo", "Home")">To-Do List</a>
+                        </li>
                     }
                 </ul>
             </div>
         </nav>
- 
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
- 
+    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js"></script>

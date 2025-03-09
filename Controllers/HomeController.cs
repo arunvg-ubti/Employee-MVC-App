@@ -49,5 +49,10 @@ namespace EmployeeManagementSystem.Controllers
             TempData["Role"] = "User";
             return RedirectToAction("Login", "Account");
         }
+
+        public IActionResult ToDo()
+        {
+            return View();
+        }
     }
 }
