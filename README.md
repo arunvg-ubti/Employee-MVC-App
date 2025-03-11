@@ -10,5 +10,12 @@
 - An interactive web application created to manage employees successfully
 - Integrated API for creating a To-Do List as well
 - API usage included for web application
+- Security Mechanism in place
+- Authentication usage included
+- Using JWT Tokens for authentication of end-users
+- JWT Token Validation takes place during login process
+- Every single time someone logs in, the tokens will be validated
+- Output checked via Server Console, Dev Tools (fn + F12) and JWT.io website
+- Program running well as intended without any errors itself means that the code works well
 - dotnet build is used to build the dotnet application
 - dotnet run is used to run or execute the dotnet application
