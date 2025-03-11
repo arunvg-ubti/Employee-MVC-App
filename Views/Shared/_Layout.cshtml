@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <style>
-        body { background-color: #fffacd; /* Light yellow background */ }
-        .navbar { background-color: #fffacd; /* Light yellow navbar */ }
+        body { background-color: #fffacd; }
+        .navbar { background-color: #fffacd; }
     </style>
 </head>
 <body>
@@ -22,7 +22,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("Logout", "Account")">Logout</a>
                         </li>
- 
+
                         @if (ViewData["ShowDashboardLink"] != null && (bool)ViewData["ShowDashboardLink"])
                         {
                             var userRole = Context.Session.GetString("UserRole");
@@ -32,11 +32,6 @@
                                 </a>
                             </li>
                         }
- 
-                        <!-- ✅ New To-Do List Link Added -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("ToDo", "Home")">To-Do List</a>
-                        </li>
                     }
                 </ul>
             </div>
@@ -52,4 +47,3 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
- 

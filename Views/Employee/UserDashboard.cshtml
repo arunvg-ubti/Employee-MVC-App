@@ -7,4 +7,76 @@
     <a href="@Url.Action("SearchEmployee", "Employee")" class="list-group-item list-group-item-action">Search Employee</a>
     <a href="@Url.Action("DisplayAllEmployees", "Employee")" class="list-group-item list-group-item-action">Display All Employees</a>
 </div>
-<a href="@Url.Action("Index", "Home")" class="btn btn-danger">Logout</a>
+
+<h3>To-Do List</h3>
+<input type="text" id="taskInput" placeholder="Enter task">
+<button onclick="addTask()">Add Task</button>
+<ul id="toDoList"></ul>
+
+<a href="@Url.Action("Logout", "Account")" class="btn btn-danger mt-3">Logout</a>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    console.log("DEBUG: UserDashboard script loaded");
+
+    function loadTasks() {
+        console.log("DEBUG: Loading tasks");
+        $.ajax({
+            url: "/api/todo",
+            type: "GET",
+            success: function (data) {
+                $("#toDoList").empty();
+                data.forEach(task => {
+                    $("#toDoList").append(`<li>${task.task} 
+                    <button onclick="deleteTask(${task.id})">Delete</button></li>`);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.log("AJAX Error:", xhr.status, status, error);
+                alert("Error loading tasks.");
+            }
+        });
+    }
+
+    function addTask() {
+        var task = $("#taskInput").val();
+        if (!task) {
+            alert("Please enter a task.");
+            return;
+        }
+
+        $.ajax({
+            url: "/api/todo",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ task: task }),
+            success: function () {
+                $("#taskInput").val("");
+                loadTasks();
+            },
+            error: function (xhr, status, error) {
+                console.log("AJAX Error (Add):", xhr.status, status, error);
+                alert("Error adding task.");
+            }
+        });
+    }
+
+    function deleteTask(id) {
+        $.ajax({
+            url: `/api/todo/${id}`,
+            type: "DELETE",
+            success: function () {
+                loadTasks();
+            },
+            error: function (xhr, status, error) {
+                console.log("AJAX Error (Delete):", xhr.status, status, error);
+                alert("Error deleting task.");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        console.log("DEBUG: Document ready, calling loadTasks");
+        loadTasks();
+    });
+</script>

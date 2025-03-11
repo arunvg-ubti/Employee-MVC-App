@@ -1,52 +1,51 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
- 
+
 namespace EmployeeManagementSystem.Controllers
 {
-    [Route("api/todo")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ToDoController : ControllerBase
     {
-        private static List<ToDoItem> _toDoList = new List<ToDoItem>();
- 
+        private static List<ToDoItem> toDoList = new List<ToDoItem>();
+        private static int nextId = 1;
+
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult Get()
         {
-            return Ok(_toDoList);
+            Console.WriteLine("DEBUG: ToDoController GET called");
+            return Ok(toDoList);
         }
- 
+
         [HttpPost]
-        public IActionResult Add([FromBody] ToDoItem item)
+        public IActionResult Post([FromBody] ToDoItem item)
         {
-            if (string.IsNullOrWhiteSpace(item.Task))
+            Console.WriteLine($"DEBUG: ToDoController POST called with task: {item.Task}");
+            if (item == null || string.IsNullOrEmpty(item.Task))
             {
-                return BadRequest("Task cannot be empty.");
+                return BadRequest("Task cannot be null or empty.");
             }
- 
-            item.Id = _toDoList.Count + 1;
-            _toDoList.Add(item);
-            return Ok(item);
+            item.Id = nextId++;
+            toDoList.Add(item);
+            return Ok();
         }
- 
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var item = _toDoList.FirstOrDefault(t => t.Id == id);
+            Console.WriteLine($"DEBUG: ToDoController DELETE called for id: {id}");
+            var item = toDoList.FirstOrDefault(x => x.Id == id);
             if (item == null)
             {
-                return NotFound("To-Do item not found.");
+                return NotFound();
             }
- 
-            _toDoList.Remove(item);
-            return Ok($"Deleted item with ID {id}");
+            toDoList.Remove(item);
+            return Ok();
         }
     }
- 
+
     public class ToDoItem
     {
         public int Id { get; set; }
         public string Task { get; set; }
     }
 }
- 
